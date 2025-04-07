@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const http = require("node:http");
+const url = require("node:url");
 
 ////////////////////////////////////////////////////////
 
@@ -46,8 +47,19 @@ const http = require("node:http");
 // !SERVER MODULE
 
 const server = http.createServer((req, res) => {
-  console.log(req), res.end("Hello from the server!");
+  const pathName = req.url;
+  if (pathName === "/" || pathName === "/overview")
+    res.end("This is the overview page!");
+  else if (pathName === "/product") res.end("This is the product page!");
+  else {
+    res.writeHead(404, {
+      "Content-type": "text/html",
+      "my-own-header": "hello-world",
+    });
+    res.end("<h1>Page not found!</h1>");
+  }
 });
+
 server.listen(8000, "127.0.0.1", () => {
   console.log("server running on port 8000");
 });
