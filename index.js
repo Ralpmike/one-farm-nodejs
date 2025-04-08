@@ -44,19 +44,39 @@ const url = require("node:url");
 // );
 // console.log("Reading file...");
 
-const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
-const dataObj = JSON.parsese(data);
+const tempCard = fs.readFileSync(
+  `${__dirname}/templates/template-card.html`,
+  "utf-8"
+);
+const tempProduct = fs.readFileSync(
+  `${__dirname}/templates/template-product.html`,
+  "utf-8"
+);
+const tempOverview = fs.readFileSync(
+  `${__dirname}/templates/template-overview.html`,
+  "utf-8"
+);
+// const dataObj = JSON.parsese(data);
 // !SERVER MODULE
 
 const server = http.createServer((req, res) => {
   const pathName = req.url;
-  if (pathName === "/" || pathName === "/overview")
-    res.end("This is the overview page!");
-  else if (pathName === "/product") res.end("This is the product page!");
+  // Overview Page
+
+  if (pathName === "/" || pathName === "/overview") {
+    res.writeHead(200, { "Content-type": "text/html" });
+    res.end(tempOverview);
+    // const output = tempOverview.replace("{%PRODUCT_CARDS%}", tempCard);
+  }
+  // Product Page
+  else if (pathName === "/product") {
+    res.end("This is the product page!");
+  }
+  // API
   else if (pathName === "/api") {
     res.writeHead(200, { "Content-type": "application/json" });
     res.end(data);
-    // res.end("API");
+    // Not Found
   } else {
     res.writeHead(404, {
       "Content-type": "text/html",
