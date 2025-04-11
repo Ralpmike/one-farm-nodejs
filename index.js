@@ -63,12 +63,12 @@ const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObj = JSON.parse(data);
 // !SERVER MODULE
 
-console.log(
-  slugify("Avocado and Tomato", {
-    lower: true,
-    trim: true,
-  })
-);
+// console.log(
+//   slugify("Avocado and Tomato", {
+//     lower: true,
+//     trim: true,
+//   })
+// );
 
 const slugs = dataObj.map((el) => slugify(el.productName, { lower: true }));
 console.log(slugs);
