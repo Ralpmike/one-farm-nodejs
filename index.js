@@ -1,6 +1,9 @@
 const fs = require("node:fs");
 const http = require("node:http");
 const url = require("node:url");
+
+const slugify = require("slugify");
+
 const replaceTemplate = require("./modules/replaceTemplate");
 ////////////////////////////////////////////////////////
 
@@ -59,6 +62,16 @@ const tempOverview = fs.readFileSync(
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObj = JSON.parse(data);
 // !SERVER MODULE
+
+console.log(
+  slugify("Avocado and Tomato", {
+    lower: true,
+    trim: true,
+  })
+);
+
+const slugs = dataObj.map((el) => slugify(el.productName, { lower: true }));
+console.log(slugs);
 
 const server = http.createServer((req, res) => {
   const { query, pathname } = url.parse(req.url, true);
